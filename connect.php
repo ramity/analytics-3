@@ -3,7 +3,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 {
 	try
 	{
-		$db=new PDO('mysql:host=localhost;dbname=A_analytics;charset=utf8','ramity','Gr33ndayadmin');
+		$db=new PDO('mysql:host=localhost;dbname=A_analytics;charset=utf8','USERNAME','PASSWORD');
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		
