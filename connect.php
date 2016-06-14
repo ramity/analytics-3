@@ -6,14 +6,14 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 		$db=new PDO('mysql:host=localhost;dbname=A_analytics;charset=utf8','USERNAME','PASSWORD');
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-		
+
 		$stmt=$db->prepare("INSERT INTO data(id,UID,URL,IP,time,hour,day,month,year,navigator,navigatorAppCodeName,navigatorAppName,navigatorAppVersion,navigatorCookieEnabled,navigatorOnLine,navigatorPlatform,navigatorProduct,navigatorUserAgent,navigatorPlugins,navigatorPluginsList,screen,screenAvailHeight,screenAvailWidth,screenColorDepth,screenHeight,screenPixelDepth,screenWidth,location,locationHash,locationHost,locationHref,locationOrigin,locationPathname,locationPort,locationProtocol,locationSearch,performance,memoryJSHeapSizeLimit,memoryUsedJSHeapSize,memoryTotalJSHeapSize,navigationRedirectCount,navigationType,timingLoadEventEnd,timingLoadEventStart,timingDomComplete,timingDomContentLoadedEventEnd,timingDomContentLoadedEventStart,timingDomInteractive,timingDomLoading,timingResponseEnd,timingResponseStart,timingRequestStart,timingSecureConnectionStart,timingConnectEnd,timingConnectStart,timingDomainLookupEnd,timingDomainLookupStart,timingFetchStart,timingRedirectEnd,timingRedirectStart,timingUnloadEventEnd,timingUnloadEventStart,timingNavigationStart,history,historyLength)
 		VALUES('',:UID,:URL,:IP,:time,:hour,:day,:month,:year,:navigator,:navigatorAppCodeName,:navigatorAppName,:navigatorAppVersion,:navigatorCookieEnabled,:navigatorOnLine,:navigatorPlatform,:navigatorProduct,:navigatorUserAgent,:navigatorPlugins,:navigatorPluginsList,:screen,:screenAvailHeight,:screenAvailWidth,:screenColorDepth,:screenHeight,:screenPixelDepth,:screenWidth,:location,:locationHash,:locationHost,:locationHref,:locationOrigin,:locationPathname,:locationPort,:locationProtocol,:locationSearch,:performance,:memoryJSHeapSizeLimit,:memoryUsedJSHeapSize,:memoryTotalJSHeapSize,:navigationRedirectCount,:navigationType,:timingLoadEventEnd,:timingLoadEventStart,:timingDomComplete,:timingDomContentLoadedEventEnd,:timingDomContentLoadedEventStart,:timingDomInteractive,:timingDomLoading,:timingResponseEnd,:timingResponseStart,:timingRequestStart,:timingSecureConnectionStart,:timingConnectEnd,:timingConnectStart,:timingDomainLookupEnd,:timingDomainLookupStart,:timingFetchStart,:timingRedirectEnd,:timingRedirectStart,:timingUnloadEventEnd,:timingUnloadEventStart,:timingNavigationStart,:history,:historyLength)");
-		
+
 		//stuff for timezone
 		$json=file_get_contents('http://ip-api.com/json/'.$_SERVER['REMOTE_ADDR']);
 		$ipData=json_decode($json,true);
-		
+
 		if($ipData['timezone'])
 		{
 			date_default_timezone_set($ipData['timezone']);
@@ -24,19 +24,19 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 		}
 		
 		$now=getdate();
-		
+
 		$stmt->bindValue('time',$now['0']);
 		$stmt->bindValue('hour',$now['hours']);
 		$stmt->bindValue('day',$now['mday']);
 		$stmt->bindValue('month',$now['mon']);
 		$stmt->bindValue('year',$now['year']);
-		
+
 		if(isset($_POST)&&!empty($_POST))
 		{
 			$stmt->bindValue(':UID',$_POST['UID'],PDO::PARAM_INT);
 			$stmt->bindValue(':URL',$_POST['URL'],PDO::PARAM_STR);
 			$stmt->bindValue(':IP',$_SERVER['REMOTE_ADDR'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':navigator',$_POST['navigator'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorAppCodeName',$_POST['navigatorAppCodeName'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorAppName',$_POST['navigatorAppName'],PDO::PARAM_STR);
@@ -46,10 +46,10 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':navigatorPlatform',$_POST['navigatorPlatform'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorProduct',$_POST['navigatorProduct'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorUserAgent',$_POST['navigatorUserAgent'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':navigatorPlugins',$_POST['navigatorPlugins'],PDO::PARAM_INT);
 			$stmt->bindValue(':navigatorPluginsList',$_POST['navigatorPluginsList'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':screen',$_POST['screen'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenAvailHeight',$_POST['screenAvailHeight'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenAvailWidth',$_POST['screenAvailWidth'],PDO::PARAM_STR);
@@ -57,7 +57,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':screenHeight',$_POST['screenHeight'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenPixelDepth',$_POST['screenPixelDepth'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenWidth',$_POST['screenWidth'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':location',$_POST['location'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationHash',$_POST['locationHash'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationHost',$_POST['locationHost'],PDO::PARAM_STR);
@@ -67,7 +67,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':locationPort',$_POST['locationPort'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationProtocol',$_POST['locationProtocol'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationSearch',$_POST['locationSearch'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':performance',$_POST['performance'],PDO::PARAM_STR);
 			$stmt->bindValue(':memoryJSHeapSizeLimit',$_POST['memoryJSHeapSizeLimit'],PDO::PARAM_STR);
 			$stmt->bindValue(':memoryUsedJSHeapSize',$_POST['memoryUsedJSHeapSize'],PDO::PARAM_STR);
@@ -95,7 +95,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':timingUnloadEventEnd',$_POST['timingUnloadEventEnd'],PDO::PARAM_STR);
 			$stmt->bindValue(':timingUnloadEventStart',$_POST['timingUnloadEventStart'],PDO::PARAM_STR);
 			$stmt->bindValue(':timingNavigationStart',$_POST['timingNavigationStart'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':history',$_POST['history'],PDO::PARAM_STR);
 			$stmt->bindValue(':historyLength',$_POST['historyLength'],PDO::PARAM_STR);
 		}
@@ -110,10 +110,10 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':navigatorPlatform',$_GET['navigatorPlatform'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorProduct',$_GET['navigatorProduct'],PDO::PARAM_STR);
 			$stmt->bindValue(':navigatorUserAgent',$_GET['navigatorUserAgent'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':navigatorPlugins',$_GET['navigatorPlugins'],PDO::PARAM_INT);
 			$stmt->bindValue(':navigatorPluginsList',$_GET['navigatorPluginsList'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':screen',$_GET['screen'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenAvailHeight',$_GET['screenAvailHeight'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenAvailWidth',$_GET['screenAvailWidth'],PDO::PARAM_STR);
@@ -121,7 +121,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':screenHeight',$_GET['screenHeight'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenPixelDepth',$_GET['screenPixelDepth'],PDO::PARAM_STR);
 			$stmt->bindValue(':screenWidth',$_GET['screenWidth'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':location',$_GET['location'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationHash',$_GET['locationHash'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationHost',$_GET['locationHost'],PDO::PARAM_STR);
@@ -131,7 +131,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':locationPort',$_GET['locationPort'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationProtocol',$_GET['locationProtocol'],PDO::PARAM_STR);
 			$stmt->bindValue(':locationSearch',$_GET['locationSearch'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':performance',$_GET['performance'],PDO::PARAM_STR);
 			$stmt->bindValue(':memoryJSHeapSizeLimit',$_GET['memoryJSHeapSizeLimit'],PDO::PARAM_STR);
 			$stmt->bindValue(':memoryUsedJSHeapSize',$_GET['memoryUsedJSHeapSize'],PDO::PARAM_STR);
@@ -159,7 +159,7 @@ if((isset($_POST)&&!empty($_POST))||(isset($_GET)&&!empty($_GET)))
 			$stmt->bindValue(':timingUnloadEventEnd',$_GET['timingUnloadEventEnd'],PDO::PARAM_STR);
 			$stmt->bindValue(':timingUnloadEventStart',$_GET['timingUnloadEventStart'],PDO::PARAM_STR);
 			$stmt->bindValue(':timingNavigationStart',$_GET['timingNavigationStart'],PDO::PARAM_STR);
-			
+
 			$stmt->bindValue(':history',$_GET['history'],PDO::PARAM_STR);
 			$stmt->bindValue(':historyLength',$_GET['historyLength'],PDO::PARAM_STR);
 		}
